@@ -1,4 +1,6 @@
-﻿Examples.ForFSharpList.Run();
-Examples.ForFSharpSet.Run();
-Examples.ForFSharpMap.Run();
-Examples.ForFSharpOption.Run();
+﻿using FSharpCollections.Examples;
+
+ForFSharpList.Run();
+ForFSharpSet.Run();
+ForFSharpMap.Run();
+ForFSharpOption.Run();

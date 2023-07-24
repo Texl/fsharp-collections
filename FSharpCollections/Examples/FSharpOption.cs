@@ -1,20 +1,19 @@
 ﻿using Microsoft.FSharp.Core;
 
-namespace Examples
+namespace FSharpCollections.Examples;
+
+public static class ForFSharpOption
 {
-    public static class ForFSharpOption
+    public static void Run()
     {
-        public static void Run()
-        {
-            Console.WriteLine("FSharpOption");
+        Console.WriteLine("FSharpOption");
 
-            // Create
-            FSharpOption<string>? optionNone = FSharpOption<string>.None;
-            FSharpOption<string>? optionSome = FSharpOption<string>.Some("example");
-
-            Console.WriteLine(optionNone?.ToString());
-            Console.WriteLine(optionSome?.ToString());
-            Console.WriteLine();
-        }
+        // Create
+        var optionNone = FSharpOption<string>.None;
+        var optionSome = FSharpOption<string>.Some("example");
+        
+        Console.WriteLine(optionNone);
+        Console.WriteLine(optionSome);
+        Console.WriteLine();
     }
 }

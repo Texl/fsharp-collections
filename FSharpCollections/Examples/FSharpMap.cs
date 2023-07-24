@@ -1,18 +1,17 @@
 ﻿using Microsoft.FSharp.Collections;
 
-namespace Examples
+namespace FSharpCollections.Examples;
+
+public static class ForFSharpMap
 {
-    public static class ForFSharpMap
+    public static void Run()
     {
-        public static void Run()
-        {
-            Console.WriteLine("FSharpMap");
+        Console.WriteLine("FSharpMap");
 
-            // Create empty
-            FSharpMap<string, int> map = MapModule.Empty<string, int>();
+        // Create empty
+        FSharpMap<string, int> map = MapModule.Empty<string, int>();
 
-            Console.WriteLine(map.ToString());
-            Console.WriteLine();
-        }
+        Console.WriteLine(map);
+        Console.WriteLine();
     }
 }
