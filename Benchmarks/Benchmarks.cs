@@ -1,48 +1,88 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Jobs;
+﻿using System.Collections.Generic;
+using System.Linq;
+using BenchmarkDotNet.Attributes;
 using Microsoft.FSharp.Collections;
-using Microsoft.FSharp.Core;
-using Perfolizer.Horology;
-using static FSharpCollections.Examples.Pervasives;
+using ArrayModule = Microsoft.FSharp.Collections.ArrayModule;
+using ListModule = Microsoft.FSharp.Collections.ListModule;
 
-namespace Benchmarks
+namespace Benchmarks;
+
+[Config(typeof(FastAndDirtyConfig))]
+[MemoryDiagnoser]
+public class Benchmarks
 {
-    public class FastAndDirtyConfig : ManualConfig
+    [Benchmark]
+    public List<int> List()
     {
-        public FastAndDirtyConfig()
-        {
-            var fastJob =
-                Job.Default
-                    .WithLaunchCount(1) // benchmark process will be launched only once
-                    .WithIterationTime(TimeInterval.FromMilliseconds(100)) // 100ms per iteration
-                    .WithWarmupCount(3) // 3 warmup iteration
-                    .WithIterationCount(3); // 3 target iteration
+        var list = new List<int>();
 
-            AddJob(fastJob);
+        for (var i = 0; i < 100_000; ++i)
+        {
+            list.Add(42);
         }
+
+        return list;
     }
 
-    [Config(typeof(FastAndDirtyConfig))]
-    [MemoryDiagnoser]
-    public class Benchmarks
+    [Benchmark]
+    public List<int> EnumerableRangeToList()
     {
-        [Benchmark]
-        public void Scenario1()
+        return Enumerable.Repeat(42, 100_000).ToList();
+    }
+
+    [Benchmark]
+    public int[] EnumerableRangeToArray()
+    {
+        return Enumerable.Repeat(42, 100_000).ToArray();
+    }
+
+    [Benchmark]
+    public int[] NewArray()
+    {
+        var array = new int[100_000];
+        for (var i = 0; i < array.Length; ++i)
         {
+            array[i] = 42;
         }
 
-        [Benchmark]
-        public void Scenario2()
+        return array;
+    }
+
+    [Benchmark]
+    public LinkedList<int> LinkedList()
+    {
+        var list = new LinkedList<int>();
+
+        for (var i = 0; i < 100_000; ++i)
         {
+            list.AddFirst(42);
         }
+
+        return list;
+    }
+
+    [Benchmark]
+    public FSharpList<int> FSharpList()
+    {
+        return ListModule.Replicate(100_000, 42);
     }
     
-    public static class Program
+    [Benchmark]
+    public int[] FSharpArrayZeroCreate()
     {
-        public static void Main(string[] args)
+        int[] array = ArrayModule.ZeroCreate<int>(100_000);
+
+        for (var i = 0; i < array.Length; ++i)
         {
-            var summary = BenchmarkDotNet.Running.BenchmarkRunner.Run<Benchmarks>();
+            array[i] = 42;
         }
+
+        return array;
+    }
+
+    [Benchmark]
+    public int[] FSharpArray()
+    {
+        return ArrayModule.Replicate(100_000, 42);
     }
 }

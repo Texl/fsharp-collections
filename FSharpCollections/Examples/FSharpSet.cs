@@ -8,6 +8,8 @@ public static class ForFSharpSet
     {
         Console.WriteLine("FSharpSet");
 
+        // An immutable binary-tree-based ordered set.
+        
         // Create empty
         FSharpSet<string> set = SetModule.Empty<string>();
 

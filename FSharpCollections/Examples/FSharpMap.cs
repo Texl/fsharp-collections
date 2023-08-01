@@ -8,6 +8,8 @@ public static class ForFSharpMap
     {
         Console.WriteLine("FSharpMap");
 
+        // An immutable key-value map based on binary trees..
+        
         // Create empty
         FSharpMap<string, int> map = MapModule.Empty<string, int>();
 
